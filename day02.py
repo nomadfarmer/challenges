@@ -7,6 +7,12 @@ more) letters repeated exactly twice. Also count the strings which
 contain a letter repeated exactly three times. Return the product of
 those two numbers.
 
+Part two:
+
+Find two ids that are identical except for one char in the same position.
+e.g.: abcde and abide.
+Return the chars that those two strings have in common (e.g. abde)
+
 """
 
 import itertools
@@ -35,8 +41,25 @@ def part_a():
      
 
 def part_b():
-    pass
+    with open("day02input") as f:
+        box_ids = f.read().splitlines()
+
+    for pair in itertools.permutations(box_ids, 2):
+        diff_loc = -1
+        for i in range(len(pair[0])):
+            if pair[0][i] != pair[1][i]:
+                if diff_loc >= 0:
+                    # these chars are different but we already found
+                    # different chars, so set diff_loc to an invalid
+                    # value.
+                    diff_loc = -1
+                    break
+                else:
+                    diff_loc = i
+
+        if diff_loc >= 0:
+            print(pair[0][0:diff_loc] + pair[0][diff_loc+1:])
 
 
 if __name__ == "__main__":
-    part_a()
+    part_b()
