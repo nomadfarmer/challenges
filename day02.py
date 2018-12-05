@@ -44,7 +44,7 @@ def part_b():
     with open("day02input") as f:
         box_ids = f.read().splitlines()
 
-    for pair in itertools.permutations(box_ids, 2):
+    for pair in itertools.combinations(box_ids, 2):
         diff_loc = -1
         for i in range(len(pair[0])):
             if pair[0][i] != pair[1][i]:
