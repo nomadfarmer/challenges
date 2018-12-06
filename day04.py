@@ -71,14 +71,7 @@ def part_a():
 
     print(75 * "=")
 
-
     
-    # print(guards)
-    # for guard in guards:
-    #    print(guard, guards[guard])
-    
-    
-
 def part_b():
     pass
 
