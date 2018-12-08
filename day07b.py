@@ -1,50 +1,84 @@
 import re
 
-todo = set()
-started = set()
-done = set()
-requires = {}
-order = ''
+class Tasks:
+    todo = set()
+    started = set()
+    done = set()
+    requires = {}
+    base_time = 60
 
 
-def load_file(filename):
-    with open(filename) as f:
-        raw_lines = f.read().splitlines()
-    return raw_lines
+    def __init__(self, filename):
+        with open(filename) as f:
+            raw_lines = f.read().splitlines()
 
-
-def init():
-    for l in load_file("day07input"):
-        m = re.search(r"(\b[A-Z]\b).*(\b[A-Z]\b)", l)
-        g = m.groups()
-        todo.add(g[0])
-        todo.add(g[1])
-        if g[1] in requires:
-            requires[g[1]].append(g[0])
-        else:
-            requires[g[1]] = [g[0]]
+        for l in raw_lines:
+            m = re.search(r"(\b[A-Z]\b).*(\b[A-Z]\b)", l)
+            g = m.groups()
+            self.todo.add(g[0])
+            self.todo.add(g[1])
+            if g[1] in self.requires:
+                self.requires[g[1]].append(g[0])
+            else:
+                self.requires[g[1]] = [g[0]]
 
     # print ("Todo:", sorted(todo))
     # print ("Prereqs: ", requires)        
 
 
-def next_task():
-    for task in sorted(todo):
-        if task in done or task in started:
-            continue
-        else:
-            ready = True
-            if task in requires:
-                for prereq in requires[task]:
-                    if prereq not in done:
-                        ready = False
-            if ready:
-                return task
-    return None
+    def next_task(self):
+        for task in sorted(self.todo):
+            if task in self.done or task in self.started:
+                continue
+            else:
+                ready = True
+                if task in self.requires:
+                    for prereq in self.requires[task]:
+                        if prereq not in self.done:
+                            ready = False
+                if ready:
+                    return task
+        return None
 
+    def start_task(self, task):
+        """ Marks a task as started and returns the length of time it
+        will take to complete.
+        """
+        self.started.add(task)
+        return self.base_time + ord(task) - 64
+
+    def finish_task(self, task):
+        self.done.add(task)
+        self.started.remove(task)
+
+
+class Workers:
+    busy_until = []
+    working_on = []
+
+    def __init__(self, worker_count):
+        self.busy_until = [0 for i in range(worker_count)]
+        self.working_on = ['' for i in range(worker_count)]
+
+        
+    def next_free_worker(self):
+        return min(busy_until)
+
+    
+    def assign_worker(self, task):
+        pass
+
+
+    def move_clock(self, new_time):
+        pass
+
+    
+
+    
 def main():
-    init()
-    print(next_task())
+    tasks = Tasks("day07input")
+
+
     
 
 if __name__ == '__main__':

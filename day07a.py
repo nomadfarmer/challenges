@@ -12,7 +12,7 @@ def part_a():
     requires = {}
     order = ''
 
-    for l in load_file("day07input"):
+    for l in load_file("day07input_fisk"):
         m = re.search(r"(\b[A-Z]\b).*(\b[A-Z]\b)", l)
         g = m.groups()
         todo.add(g[0])
@@ -22,11 +22,11 @@ def part_a():
         else:
             requires[g[1]] = [g[0]]
 
-    print ("Todo:", sorted(todo))
-    print ("Prereqs: ", requires)        
+    # print ("Todo:", sorted(todo))
+    # print ("Prereqs: ", requires)        
 
     while len(done) < len(todo):
-        for task in sorted(todo):
+        for task in sorted(todo ^ done):
             if task in done:
                 continue
             else:

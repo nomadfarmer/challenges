@@ -52,4 +52,4 @@ def part_b():
 
     
 if __name__ == '__main__':
-    part_b()
+    part_a()
