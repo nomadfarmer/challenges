@@ -25,12 +25,23 @@ class Node():
         return answer
 
 
+    def value(self):
+        if not self.children:
+            return sum(self.metadata)
+        else:
+            answer = 0
+            for i in self.metadata:
+                if i > 0 and i <= len(self.children):
+                    answer += self.children[i - 1].value()
+            return answer
+
 def part_a():
     with open("day08input") as f:
        data = f.read().strip().split(" ")
 
     root = Node(data)
-    print(root.total())
+    print('Part 1 answer: ', root.total())
+    print('Part 2 answer: ', root.value())
 
     
 if __name__ == '__main__':

@@ -3,7 +3,7 @@ import re
 class Tasks:
     todo = set()
     started = set()
-    done = set()
+#    done = set()
     requires = {}
     base_time = 60
 
@@ -22,19 +22,16 @@ class Tasks:
             else:
                 self.requires[g[1]] = [g[0]]
 
-    # print ("Todo:", sorted(todo))
-    # print ("Prereqs: ", requires)        
-
 
     def next_task(self):
         for task in sorted(self.todo):
-            if task in self.done or task in self.started:
+            if task in self.started:
                 continue
             else:
                 ready = True
                 if task in self.requires:
                     for prereq in self.requires[task]:
-                        if prereq not in self.done:
+                        if prereq in self.todo or prereq in self.started:
                             ready = False
                 if ready:
                     return task
@@ -45,10 +42,10 @@ class Tasks:
         will take to complete.
         """
         self.started.add(task)
+        self.todo.remove(task)
         return self.base_time + ord(task) - 64
 
     def finish_task(self, task):
-        self.done.add(task)
         self.started.remove(task)
 
 
@@ -64,22 +61,49 @@ class Workers:
     def next_free_worker(self):
         return min(busy_until)
 
+
+    def free_worker(self):
+        try:
+            self.busy_until.index(0)
+        except:
+            return False
+
+        return True
     
-    def assign_worker(self, task):
-        pass
-
-
-    def move_clock(self, new_time):
-        pass
-
     
+    def assign_worker(self, task_d, task, time):
+        free_worker = self.busy_until.index(0)
+        self.busy_until[free_worker] = task_d.start_task(task) + time
+        self.working_on[free_worker] = task
 
+
+    def move_clock(self, task_d):
+        times = set(self.busy_until)
+        if 0 in times:
+            times = times ^ {0}
+        new_time = min(times)
+
+        for w in range(len(self.busy_until)):
+            if self.busy_until[w] and self.busy_until[w] <= new_time:
+                task_d.finish_task(self.working_on[w])
+                self.busy_until[w] = 0
+                self.working_on[w] = ''
+        return new_time
+        
     
 def main():
-    tasks = Tasks("day07input")
+    task_d = Tasks("day07input")
+    workers = Workers(5)
+    time = 0
 
+    while len(task_d.todo):
+        next_task = task_d.next_task()
+        if next_task and workers.free_worker():
+            workers.assign_worker(task_d, next_task, time)
+        else:
+            time = workers.move_clock(task_d)
 
-    
+    print(max(workers.busy_until))
 
 if __name__ == '__main__':
     main()
