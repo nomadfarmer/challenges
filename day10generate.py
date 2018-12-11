@@ -24,5 +24,6 @@ for y in range(len(message)):
             vy = random.choice(velocities)
             px = x + (vx * -time)
             py = y + (vy * -time)
-            print("position=<{: d}, {: d}> velocity=<{: d}, {: d}>".format(px, py, vx, vy))
+            symbol = message[y][x]
+            print("position=<{: d}, {: d}> velocity=<{: d}, {: d}> symbol={}".format(px, py, vx, vy, symbol))
             

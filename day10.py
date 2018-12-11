@@ -53,7 +53,7 @@ class Stars:
 
 
 def main():
-    with open("day10output_bob") as f:
+    with open("tree_out") as f:
         raw_data = f.read().splitlines()
     stars = Stars(raw_data)
 
