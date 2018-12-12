@@ -1,4 +1,5 @@
 import string
+import itertools
 
 ids = list(reversed(string.ascii_letters))
 
@@ -50,25 +51,24 @@ max_y = max([p.y() for p in points])
 
 safe_area = 0
 
-for x in range(min_x, max_x + 1):
-    for y in range(min_y, max_y + 1):
-        distances = []
-        for p in points:
-            distances.append(p.distance((x, y)))
-            closest = min(distances)
-        if distances.count(closest) == 1:
-            owner = points[distances.index(closest)]
-            owner.area += 1
-            if x in (min_x, max_x) or y in (min_y, max_y):
-                owner.infinite = True
-        if sum(distances) < 10000:
-            safe_area += 1
-        
+for (x, y) in itertools.product(range(min_x, max_x + 1), range(min_y, max_y + 1)):
+    distances = []
+    for p in points:
+        distances.append(p.distance((x, y)))
+    closest = min(distances)
+    if distances.count(closest) == 1:
+        owner = points[distances.index(closest)]
+        owner.area += 1
+        if x in (min_x, max_x) or y in (min_y, max_y):
+            owner.infinite = True
+    if sum(distances) < 10000:
+        safe_area += 1
+
 max_area = 0
 for p in points:
     if p.area > max_area and not p.infinite:
         max_area = p.area
 
-print(points)
+# print(points)
 print("Largest non-infinite area: ", max_area)
 print("Area closest to all points: ", safe_area)
