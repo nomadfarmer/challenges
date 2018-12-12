@@ -43,7 +43,7 @@ def generation(pots, rules):
     return next_gen[2:-2]
 
 def main():
-    with open("day12input") as f:
+    with open("input/day12input_a2") as f:
         raw_data = f.read().splitlines()
 
     m = re.search("([#.]+)", raw_data[0])
@@ -70,7 +70,7 @@ def main():
         print(f"{pre}{pots[:130]}")
         last_score = score
         last_diff.append(diff)
-        if len(Counter(last_diff[-3:])) == 1:
+        if len(set(last_diff[-3:])) == 1:
             break
 
     score_50e10 = (5 * 10 ** 10 - i) * diff + score
