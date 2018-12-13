@@ -100,13 +100,16 @@ def main():
     with open(fn) as f:
         course = f.read().splitlines()
 
-    carts = []
+
     for y in range(len(course)):
         course[y] = list(course[y])
+
+    carts = {}
+    for y in range(len(course)):
         for x in range(len(course[y])):
             if course[y][x] in DIR_SYMS:
-                carts.append(cart(DIR_SYMS.index(course[y][x]), (x, y)))
-                course[y][x] = carts[-1].track
+                carts[(x, y)] == (DIR_SYMS.index(course[y][x]), -1)
+                course[y][x] = ' '
     for x in course:
         print(''.join(x))
 

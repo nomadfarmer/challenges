@@ -6,7 +6,7 @@ https://adventofcode.com/2018/day/13
 """
 
 import sys
-from copy import deepcopy
+# from copy import deepcopy
 # from termcolor import colored
 
 NORTH = 0
@@ -68,8 +68,6 @@ class cart:
                 print("Collision at ", new_location)
                 self.collision = True
                 c.collision = True
-                self.location = (-1, -1)
-                c.location = (-1, -1)
                 carts.remove(c)
                 carts.remove(self)
                 print("Carts left: ", len(carts))
@@ -95,6 +93,11 @@ def cart_locs(course, carts):
         
     return cl
 
+
+def hash(cart):
+    return cart.location[1] * 10**6 - cart.location[0]
+
+
 def main():
     fn = sys.argv[1] if len(sys.argv) > 1 else "input/day13"
     with open(fn) as f:
@@ -111,19 +114,14 @@ def main():
         print(''.join(x))
 
 
-    done = False
+    
     turns = 0
     while len(carts) > 1:
         turns += 1
-        cl = cart_locs(course, carts)
-        if len(carts) == 1:
-            done = True
         # ghost_course = deepcopy(course)
-        for row in cl:
-            for c in filter(lambda x: x is not None, row):
-                c.move(course, carts)
-                collision = c.collision
-                # ghost_course[c.location[1]][c.location[0]] = colored(DIR_SYMS[c.direction], "red")
+        for c in sorted(carts, key = hash):
+            c.move(course, carts)
+            # ghost_course[c.location[1]][c.location[0]] = colored(DIR_SYMS[c.direction], "red")
 
         # if turns > 314:
         #     for row in ghost_course:
@@ -132,7 +130,7 @@ def main():
         #     input()
     print(c.location, turns)
 
-
+    
 
 if __name__ == '__main__':
     main()

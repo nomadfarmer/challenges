@@ -1,5 +1,6 @@
 import re
 
+
 def load_file(filename):
     with open(filename) as f:
         raw_lines = f.read().splitlines()
@@ -23,7 +24,7 @@ def part_a():
             requires[g[1]] = [g[0]]
 
     # print ("Todo:", sorted(todo))
-    # print ("Prereqs: ", requires)        
+    # print ("Prereqs: ", requires)
 
     while len(done) < len(todo):
         for task in sorted(todo ^ done):
@@ -41,7 +42,7 @@ def part_a():
                     break
 
     print(order)
-            
+
 
 if __name__ == '__main__':
     part_a()
