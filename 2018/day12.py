@@ -74,7 +74,7 @@ def main():
             break
 
     score_50e10 = (5 * 10 ** 10 - i) * diff + score
-    print(f"Part 1 (20th gen):  {score_20}")
+    print(f"Part 1  (20th gen):  {score_20}")
     print(f"Part 2 (50Bth gen):  {score_50e10}")
 
 if __name__ == '__main__':
