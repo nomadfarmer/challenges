@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Advent of Code 2018 - Day  -
-https://adventofcode.com/2018/day/
+Advent of Code 2018 - Day  - Chocolate Charts
+https://adventofcode.com/2018/day/14
 
 """
 
@@ -21,9 +21,15 @@ def recipe_pattern(pat):
             elves[i] += (int(recipes[elves[i]]) + 1)
             elves[i] %= len(recipes)
             # print(elves[i])
-    print(recipes[-20:])
-    print(len(recipes))
+    # print(recipes[-20:])
+    # print(len(recipes))
     return recipes.rfind(pat)
 
 
-print(recipe_pattern("290431"))
+assert recipe_pattern("51589") == 9
+assert recipe_pattern("01245") == 5
+assert recipe_pattern("92510") == 18
+assert recipe_pattern("59414") == 2018
+
+# print(recipe_pattern("290431"))
+print(recipe_pattern("760221"))
