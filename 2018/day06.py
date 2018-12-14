@@ -3,6 +3,7 @@ import itertools
 
 ids = list(reversed(string.ascii_letters))
 
+
 def get_id():
     return ids.pop()
 
@@ -14,22 +15,18 @@ class Point:
         self.coords = coords
         self.area = 0
 
-
     def __repr__(self):
         return f"{self.id}: {str(self.coords)}, {self.infinite}\n"
 
-    
     def x(self):
         return self.coords[0]
 
-    
     def y(self):
         return self.coords[1]
 
-    
     def distance(self, point_x):
         return abs(self.coords[0] - point_x[0]) + abs(self.coords[1] - point_x[1])
-    
+
 
 with open("day06input") as f:
     raw_data = f.read().strip().splitlines()

@@ -1,5 +1,6 @@
 import re
 
+
 def load_file(filename):
     with open(filename) as f:
         raw_lines = f.read().splitlines()
@@ -13,7 +14,7 @@ def part_a():
     guards = {}
     nap_start = -1
     current_guard = -1
-    
+
     for line in log:
         if nap_start >= 0:
             m = re.search(r":(\d+)", line)
@@ -22,7 +23,7 @@ def part_a():
                 guards[current_guard][i] += 1
             nap_start = -1
             continue
-                          
+
         m = re.search(r":(\d+).*#(\d+)", line)
 
         if m:
@@ -71,7 +72,7 @@ def part_a():
 
     print(75 * "=")
 
-    
+
 def part_b():
     pass
 

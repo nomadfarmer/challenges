@@ -10,20 +10,20 @@ eventually spell
 import re
 from operator import itemgetter
 
+
 class Stars:
     points = []
+
     def __init__(self, raw_data):
         for l in raw_data:
             m = re.search(r"(-?\d+).*?(-?\d+).*?(-?\d+).*?(-?\d+)", l)
             self.points.append(list(map(int, m.groups())))
         print(len(self.points))
 
-
     def tick(self, time):
         for p in self.points:
             p[0] += p[2] * time
             p[1] += p[3] * time
-
 
     def resolution(self):
         get_x = itemgetter(0)
@@ -31,11 +31,10 @@ class Stars:
 
         min_x = min(map(get_x, self.points))
         min_y = min(map(get_y, self.points))
-        max_x =  max(map(get_x, self.points))
+        max_x = max(map(get_x, self.points))
         max_y = max(map(get_y, self.points))
 
         return ((max_x - min_x), (max_y - min_y), min_x, min_y)
-
 
     def display(self):
         x, y, mx, my = self.resolution()
@@ -47,7 +46,6 @@ class Stars:
         for x, y, dx, dy in self.points:
             screen[y - my][x - mx] = '#'
 
-        
         for y in screen:
             print("".join(y))
 
@@ -85,6 +83,7 @@ def main():
     #     input()
     #     stars.tick(1)
     #     time += 1
+
 
 if __name__ == '__main__':
     main()

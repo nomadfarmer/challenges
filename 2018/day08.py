@@ -1,11 +1,11 @@
 class Node():
-    def __init__(self, data, reverse = True):
+    def __init__(self, data, reverse=True):
         self.children = []
         self.metadata = []
 
         if reverse:
             data.reverse()
-        
+
         children_count = int(data.pop())
         metadata_count = int(data.pop())
 
@@ -14,7 +14,6 @@ class Node():
 
         self.metadata = [int(data.pop()) for i in range(metadata_count)]
 
-        
     def total(self):
         answer = 0
         for c in self.children:
@@ -23,7 +22,6 @@ class Node():
         answer += sum(self.metadata)
 
         return answer
-
 
     def value(self):
         if not self.children:
@@ -35,14 +33,15 @@ class Node():
                     answer += self.children[i - 1].value()
             return answer
 
+
 def part_a():
     with open("day08input") as f:
-       data = f.read().strip().split(" ")
+        data = f.read().strip().split(" ")
 
     root = Node(data)
     print('Part 1 answer: ', root.total())
     print('Part 2 answer: ', root.value())
 
-    
+
 if __name__ == '__main__':
     part_a()

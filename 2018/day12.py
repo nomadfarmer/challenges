@@ -25,6 +25,7 @@ from collections import Counter
 
 import re
 
+
 def sum_plants(pots, offset):
     answer = 0
     for i in range(len(pots)):
@@ -37,10 +38,11 @@ def generation(pots, rules):
     pots = "...." + pots + "...."
     next_gen = ""
     for i in range(2, len(pots) - 2):
-        next_gen += rules[pots[i - 2 : i + 3]]
+        next_gen += rules[pots[i - 2: i + 3]]
     if '#' in next_gen[-3]:
         next_gen += '.'
     return next_gen[2:-2]
+
 
 def main():
     with open("input/day12input_a2") as f:
@@ -76,6 +78,7 @@ def main():
     score_50e10 = (5 * 10 ** 10 - i) * diff + score
     print(f"Part 1  (20th gen):  {score_20}")
     print(f"Part 2 (50Bth gen):  {score_50e10}")
+
 
 if __name__ == '__main__':
     main()

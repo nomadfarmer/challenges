@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+# /usr/bin/env python3
 """
 Advent of Code 2018 - Day 11 - 
 https://adventofcode.com/2018/day/11
@@ -15,6 +15,7 @@ power = rack_id * y
 
 """
 import numpy as np
+
 
 def power_level(x, y, serial):
     rack_id = x + 10
@@ -41,7 +42,7 @@ def main():
 
     best_loc = (1, 1, 1)
     largest = -100000
-    for size in range(1,301):
+    for size in range(1, 301):
         for x in range(1, 301 - size):
             for y in range(1, 301 - size):
                 fuel_here = grid[x:x + size, y:y + size].sum()
@@ -49,7 +50,6 @@ def main():
                     largest = fuel_here
                     best_loc = (x, y, size)
     print("Best location is at {}. Power: {}".format(best_loc, largest))
-
 
 
 if __name__ == '__main__':

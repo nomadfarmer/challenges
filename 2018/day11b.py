@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+# /usr/bin/env python3
 """
 Advent of Code 2018 - Day 11 - 
 https://adventofcode.com/2018/day/11
@@ -14,6 +14,7 @@ power = rack_id * y
 
 
 """
+
 
 def power_level(x, y, serial):
     rack_id = x + 10
@@ -49,7 +50,6 @@ def main():
                     largest = fuel_here
                     best_loc = (x, y, size)
     print(f"Best location is at {best_loc}. Power: {largest}")
-
 
 
 if __name__ == '__main__':

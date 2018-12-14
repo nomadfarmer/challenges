@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+# /usr/bin/env python3
 """
 Advent of Code 2018 - Day 11 - 
 https://adventofcode.com/2018/day/11
@@ -10,6 +10,7 @@ import numpy as np
 import itertools
 from tqdm import tqdm
 
+
 def power_level(x, y, serial=4455):
     # print("Power_level called")
     rack_id = x + 10
@@ -17,12 +18,14 @@ def power_level(x, y, serial=4455):
     power = ((power // 100) % 10) - 5
     return power
 
+
 def sum_func(arr, size=3):
-    return lambda x, y: arr[x : x + size, y : y + size].sum()
+    return lambda x, y: arr[x: x + size, y: y + size].sum()
+
 
 def new():
     grid = np.fromfunction(power_level, (301, 301), dtype=int)
-    
+
     fuels = np.empty((301 - 3, 301 - 3), dtype=int)
     # for (x, y) in itertools.product(range(1, 298), repeat=2):
     for x in tqdm(range(1, 298)):
@@ -68,8 +71,8 @@ def old():
             if fuel_here > largest:
                 largest = fuel_here
                 best_loc = (x, y)
-    # print(f"Best location is at {best_loc}. Power: {largest}")    
-    
+    # print(f"Best location is at {best_loc}. Power: {largest}")
+
 
 if __name__ == '__main__':
     new()

@@ -1,16 +1,17 @@
 import re
 from operator import itemgetter
 
+
 def load_file(filename):
     with open(filename) as f:
         raw_lines = f.read().splitlines()
 
     parsed = []
-    
+
     for line in raw_lines:
         m = re.match(r"#(\d+).*?(\d+),(\d+).*?(\d+)x(\d+)", line)
         parsed.append(tuple(map(int, m.groups())))
-    
+
     return parsed
 
 
@@ -19,10 +20,10 @@ def part_a():
 
     claimed_inches = set()
     double_claimed = set()
-    
+
     for (cid, x, y, width, height) in claims:
         for i in range(x, x + width):
-            for j in range(y, y+ height):
+            for j in range(y, y + height):
                 if (i, j) in claimed_inches:
                     double_claimed.add((i, j))
                 else:
@@ -41,15 +42,15 @@ def part_b():
 
     for (cid, x, y, width, height) in claims:
         for i in range(x, x + width):
-            for j in range(y, y+ height):
+            for j in range(y, y + height):
                 if (i, j) not in claimed_inches:
                     claimed_inches[(i, j)] = cid
                 else:
                     collided_cids.add(cid)
                     collided_cids.add(claimed_inches[(i, j)])
-                    
+
     print(all_cids ^ collided_cids)
 
-    
+
 if __name__ == '__main__':
     part_a()

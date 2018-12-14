@@ -25,5 +25,5 @@ for y in range(len(message)):
             px = x + (vx * -time)
             py = y + (vy * -time)
             symbol = message[y][x]
-            print("position=<{: d}, {: d}> velocity=<{: d}, {: d}> symbol={}".format(px, py, vx, vy, symbol))
-            
+            print("position=<{: d}, {: d}> velocity=<{: d}, {: d}> symbol={}".format(
+                px, py, vx, vy, symbol))

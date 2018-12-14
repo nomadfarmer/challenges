@@ -16,14 +16,13 @@ EAST = 3
 DIR_SYMS = ["^", "<", "v", ">"]
 DIRS = [(0, -1), (-1, 0), (0, 1), (1, 0)]
 
-#Relative directions, not E/W
+# Relative directions, not E/W
 RIGHT = -1
 LEFT = 1
 
 
-
 class cart:
-    direction = 1 # index from DIR_SYMS
+    direction = 1  # index from DIR_SYMS
     location = (0, 0)
     next_turn = 1
     track = "|"
@@ -38,13 +37,12 @@ class cart:
         else:
             self.track = "-"
 
-
     def move(self, course, carts):
         # print(f"Pre: {self.location}, {self.track}, {DIR_SYMS[self.direction]} {self.next_turn}")
-        if self.track ==  "/":
-             if self.direction in (NORTH, SOUTH):
+        if self.track == "/":
+            if self.direction in (NORTH, SOUTH):
                 self.turn(RIGHT)
-             else:
+            else:
                 self.turn(LEFT)
                 # print(self.direction)
         elif self.track == "\\":
@@ -57,9 +55,9 @@ class cart:
             self.next_turn -= 1
             if self.next_turn < -1:
                 self.next_turn = 1
-        new_location = (self.location[0] + DIRS[self.direction][0], self.location[1] + DIRS[self.direction][1])
+        new_location = (self.location[0] + DIRS[self.direction]
+                        [0], self.location[1] + DIRS[self.direction][1])
         self.track = course[new_location[1]][new_location[0]]
-
 
         for c in carts:
             if c.location == new_location:
@@ -75,12 +73,11 @@ class cart:
         if not self.collision:
             self.location = new_location
 
-
-
     def turn(self, lr):
         """lr == +1 for left, -1 for right. We'll assume no larger inputs"""
         self.direction += lr
-        self.direction %= 4 # (turn 4 into 0, -1 into 3)
+        self.direction %= 4  # (turn 4 into 0, -1 into 3)
+
 
 def cart_locs(course, carts):
     cl = []
@@ -90,7 +87,7 @@ def cart_locs(course, carts):
             cl[y].append(None)
     for c in carts:
         cl[c.location[1]][c.location[0]] = c
-        
+
     return cl
 
 
@@ -113,13 +110,11 @@ def main():
     for x in course:
         print(''.join(x))
 
-
-    
     turns = 0
     while len(carts) > 1:
         turns += 1
         # ghost_course = deepcopy(course)
-        for c in sorted(carts, key = hash):
+        for c in sorted(carts, key=hash):
             c.move(course, carts)
             # ghost_course[c.location[1]][c.location[0]] = colored(DIR_SYMS[c.direction], "red")
 
@@ -130,7 +125,6 @@ def main():
         #     input()
     print(c.location, turns)
 
-    
 
 if __name__ == '__main__':
     main()

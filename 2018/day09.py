@@ -1,13 +1,14 @@
-PLAYERS = 419 
+PLAYERS = 419
 MARBLES = 7216400
 
 # PLAYERS = 9
 # MARBLES = 25
 
+
 class Ring:
     first_marble = None
     last_marble = None
-    
+
     def add_marble(self, value, location):
         # print("Adding Marble: ", value)
         if self.last_marble:
@@ -25,7 +26,6 @@ class Ring:
             self.last_marble.widdershins = self.last_marble
             self.first_marble = self.last_marble
 
-
     def __repr__(self):
         marbles = []
         marbles.append(self.first_marble)
@@ -36,7 +36,6 @@ class Ring:
 
         return str(self.last_marble.value) + str(marbles)
 
-    
     def move(self, location):
         if location >= 0:
             for i in range(location):
@@ -44,8 +43,7 @@ class Ring:
         else:
             for i in range(abs(location)):
                 self.last_marble = self.last_marble.widdershins
- 
-    
+
     def remove_marble(self, location):
         self.move(location)
         value = self.last_marble.value
@@ -58,15 +56,14 @@ class Ring:
 class Marble:
     clockwise = None
     widdershins = None
-    
+
     def __init__(self, value):
         self.value = value
-
 
     def __repr__(self):
         return str((self.value, self.clockwise.value, self.widdershins.value))
 
-    
+
 ring = Ring()
 
 
@@ -85,6 +82,6 @@ for m in range(MARBLES + 1):
         current_player = 0
     # print(ring)
     # print(ring.last_marble)
-    
+
 
 print(max(scores))

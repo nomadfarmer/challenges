@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Advent of Code 2018 - Day 99 - 
-https://adventofcode.com/2018/day/99
+Advent of Code 2018 - Day  -
+https://adventofcode.com/2018/day/
 
 """
 

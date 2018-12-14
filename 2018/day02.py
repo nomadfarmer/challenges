@@ -17,6 +17,7 @@ Return the chars that those two strings have in common (e.g. abde)
 
 import itertools
 
+
 def part_a():
     with open("day02input") as f:
         box_ids = f.read().splitlines()
@@ -38,7 +39,7 @@ def part_a():
             triples += 1
 
     print(doubles * triples)
-     
+
 
 def part_b():
     with open("day02input") as f:

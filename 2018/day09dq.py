@@ -1,5 +1,6 @@
 from collections import deque
 
+
 def marble_game(players, marbles):
     ring = deque()
     scores = [0] * players
@@ -14,7 +15,7 @@ def marble_game(players, marbles):
             scores[cur_player] += ring.pop() + m
             ring.rotate(-1)
         cur_player = (cur_player + 1) % players
-        
+
     return max(scores)
 
 

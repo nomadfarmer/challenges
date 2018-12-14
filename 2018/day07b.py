@@ -1,12 +1,12 @@
 import re
 
+
 class Tasks:
     todo = set()
     started = set()
 #    done = set()
     requires = {}
     base_time = 60
-
 
     def __init__(self, filename):
         with open(filename) as f:
@@ -21,7 +21,6 @@ class Tasks:
                 self.requires[g[1]].append(g[0])
             else:
                 self.requires[g[1]] = [g[0]]
-
 
     def next_task(self):
         for task in sorted(self.todo):
@@ -57,10 +56,8 @@ class Workers:
         self.busy_until = [0 for i in range(worker_count)]
         self.working_on = ['' for i in range(worker_count)]
 
-        
     def next_free_worker(self):
         return min(busy_until)
-
 
     def free_worker(self):
         try:
@@ -69,13 +66,11 @@ class Workers:
             return False
 
         return True
-    
-    
+
     def assign_worker(self, task_d, task, time):
         free_worker = self.busy_until.index(0)
         self.busy_until[free_worker] = task_d.start_task(task) + time
         self.working_on[free_worker] = task
-
 
     def move_clock(self, task_d):
         times = set(self.busy_until)
@@ -89,8 +84,8 @@ class Workers:
                 self.busy_until[w] = 0
                 self.working_on[w] = ''
         return new_time
-        
-    
+
+
 def main():
     task_d = Tasks("day07input")
     workers = Workers(5)
@@ -104,6 +99,7 @@ def main():
             time = workers.move_clock(task_d)
 
     print(max(workers.busy_until))
+
 
 if __name__ == '__main__':
     main()

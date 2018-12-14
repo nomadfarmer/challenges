@@ -1,6 +1,7 @@
 import re
 from string import ascii_lowercase
 
+
 def load_file(filename):
     with open(filename) as f:
         raw_lines = f.read().strip()
@@ -19,10 +20,10 @@ def part_a(polymer):
         reactions += l + l.upper() + "|" + l.upper() + l + "|"
 
     reactions = reactions[0:-1] + ")"
-    
+
     poly_length = len(polymer)
 
-    while True:        
+    while True:
         polymer = re.sub(reactions, '', polymer)
         if len(polymer) == poly_length:
             break
@@ -50,7 +51,7 @@ def part_a_rec(polymer):
 
     if not skip:
         new_poly += polymer[-1]
-        
+
     if len(new_poly) < len(polymer):
         return part_a_rec(new_poly)
     else:
@@ -71,7 +72,6 @@ def part_b(polymer):
 
 
 if __name__ == '__main__':
-    print(part_a(polymer = load_file("day05input")))
+    print(part_a(polymer=load_file("day05input")))
     # print(part_a_rec(polymer = load_file("day05input")))
     # print(part_b(polymer = load_file("day05input")))
-
