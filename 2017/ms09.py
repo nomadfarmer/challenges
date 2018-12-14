@@ -5,13 +5,6 @@ https://adventofcode.com/2017/day/9
 
 """
 
-from tqdm import tqdm
-
-# import numpy as np
-# import re
-# import collections
-# import sys
-
 
 def test_stream_group_count():
     assert process_stream("{}")[0] == 1
@@ -36,6 +29,14 @@ def test_stream_score():
 
 
 def test_garbage_count():
+    print(f"Test 1: {process_stream('<>')[2]}, expected: 0")
+    print(f"Test 2: {process_stream('<random characters>')[2]}, expected 17")
+    print(f"Test 3: {process_stream('<<<<>')[2]}, expected:, 3 characters.")
+    print(f"Test 4: {process_stream('<{!>}>')[2]}, expected:, 2 characters.")
+    print(f"Test 5: {process_stream('<!!>')[2]}, expected:, 0 characters.")
+    print(f"Test 6: {process_stream('<!!!>>')[2]}, expected:, 0 characters.")
+    f = process_stream('<{o"i!a,<{i<a>')[2]
+    print(f'Test 7: {f}, 10')
 
 
 def process_stream(stream: str):
@@ -45,12 +46,12 @@ def process_stream(stream: str):
     escaped = False
     in_garbage = False
     garbage_count = 0
-    for c in tqdm(stream):
+    for c in stream:
         if escaped:
             escaped = False
         elif c == '!':
             escaped = True
-        elif c == '<':
+        elif not in_garbage and c == '<':
             in_garbage = True
         elif in_garbage:
             if c == '>':
@@ -75,6 +76,8 @@ def main():
 
     test_stream_group_count()
     test_stream_score()
+    test_garbage_count()
+
     print(process_stream(stream))
 
 
