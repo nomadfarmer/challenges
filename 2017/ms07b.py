@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+# /usr/bin/env python3
 """
 Advent of Code 2017 - Day 07 - Recursive Circus
 https://adventofcode.com/2017/day/7
@@ -12,14 +12,15 @@ node needs to be adjusted by.
 
 import re
 
+
 class Tree:
     nodes = {}
     root = ''
-    
+
     def __init__(self, raw_data):
         child_nodes = set()
         all_nodes = set()
-        
+
         for l in raw_data:
             names = re.findall(r'([a-z]+)', l)
             weight = int(re.findall(r'(\d+)', l)[0])
@@ -44,12 +45,13 @@ class Tree:
 
         root_name = list(child_nodes ^ all_nodes)[0]
         self.root = self.nodes[root_name]
-        
-                    
+
+
 class Node:
     name = ''
     weight = 0
     children = {}
+
     def __init__(self, name, weight=0, children={}):
         self.name = name
         self.weight = weight
@@ -87,24 +89,21 @@ class Node:
                 print(f"Program {names[bad_prog]} should weigh {new_weight}.")
                 return False
 
-            
     def total_weight(self):
         w = self.weight
         for c in self.children.values():
             w += c.total_weight()
         return w
 
-    
     def display(self, prefix=""):
         print(f"{prefix}{self.name}: {self.total_weight()}")
         for c in self.children.values():
             c.display("  " + prefix)
 
-
     def __repr__(self):
         return(f"{self.name}: {self.weight}, {len(self.children)}")
-    
-    
+
+
 with open("ms07input") as f:
     raw_data = f.read().splitlines()
 

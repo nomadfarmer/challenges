@@ -17,6 +17,7 @@ a configuration we've seen before.
 The second task is to see how long the actual loop is from that point.
 """
 
+
 def reallocate(banks):
     history = []
     steps = 0
@@ -30,12 +31,12 @@ def reallocate(banks):
             pointer = (pointer + 1) % len(banks)
             banks[pointer] += 1
     return steps
-        
+
 
 test_data = [0, 2, 7, 0]
 assert reallocate(test_data) == 5
 assert test_data == [2, 4, 1, 2]
-    
+
 with open("ms06input") as f:
     banks = list(map(int, f.read().split("\t")))
 
@@ -44,4 +45,3 @@ print("Current config:", banks)
 
 print("Steps for part 2:", reallocate(banks))
 print("End config:", banks)
-

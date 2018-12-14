@@ -8,7 +8,7 @@ def traverse(instructions):
     jumps = 0
     position = 0
     instructions = instructions[:]
-    
+
     while position in range(len(instructions)):
         if instructions[position] < 3:
             offset = 1
@@ -19,6 +19,7 @@ def traverse(instructions):
         jumps += 1
 
     return jumps
+
 
 with open("ms05input") as f:
     input_ = f.read().strip().splitlines()

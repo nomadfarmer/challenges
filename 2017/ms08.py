@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+# /usr/bin/env python3
 """
 Advent of Code 2017 - Day 08 - I Heard You Like Registers
 https://adventofcode.com/2017/day/8
@@ -18,7 +18,8 @@ import re
 with open("ms08input") as f:
     raw_data = f.read().splitlines()
 
-pattern = re.compile(r"([a-z]+) (inc|dec) (-?\d+) if ([a-z]+) ([<>=!]+) (-?\d+)")
+pattern = re.compile(
+    r"([a-z]+) (inc|dec) (-?\d+) if ([a-z]+) ([<>=!]+) (-?\d+)")
 regs = {}
 top_value = 0
 
@@ -29,7 +30,7 @@ for l in raw_data:
     for r in (reg, comp_reg):
         if r not in regs:
             regs[r] = 0
-    
+
     if eval(f'{regs[comp_reg]} {comp_op} {comp_val}'):
         k = 1 if instruction == 'inc' else -1
         regs[reg] += k * int(value)
@@ -37,5 +38,3 @@ for l in raw_data:
             top_value = regs[reg]
 print("Largest value at completion:", max(regs.values()))
 print("Largest value ever:         ", top_value)
-        
-        

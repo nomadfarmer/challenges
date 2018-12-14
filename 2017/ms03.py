@@ -9,6 +9,7 @@ in the second part of the puzzle)
 
 """
 
+
 def ms03_p1(n):
     """Find the (manhattan) distance between the nth cell in the matrix
     and the center.
@@ -18,10 +19,10 @@ def ms03_p1(n):
         return 0
 
     n -= 1
-    
+
     shell_side = 3
     shells = 1
-    
+
     while n > (shell_side - 1) * 4:
         n -= (shell_side - 1) * 4
         shells += 1
@@ -29,7 +30,7 @@ def ms03_p1(n):
 
     return shells + abs((n % (shell_side - 1)) - shell_side // 2)
 
-    
+
 def ms03_p2(n):
     """ The mathy solution above won't work for part 2. The value in
     each cell is equal to the sum of all the surrounding cells that 
@@ -37,6 +38,7 @@ def ms03_p2(n):
     than our puzzle input (325489)
     """
     pass
+
 
 class Spiral:
     cells = {}
@@ -50,11 +52,11 @@ class Spiral:
             self.last_cell = (0, 0)
             self.cells[self.last_cell] = new_value = 1
         else:
-            new_cell = ( self.last_cell[0] + self.dirs[self.heading][0], \
-                       self.last_cell[1] + self.dirs[self.heading][1])
+            new_cell = (self.last_cell[0] + self.dirs[self.heading][0],
+                        self.last_cell[1] + self.dirs[self.heading][1])
             new_value = self.sum_surrounding(new_cell)
             self.cells[new_cell] = new_value
-            
+
             if self.heading in (0, 2) and abs(new_cell[0]) > self.max_[self.heading]:
                 self.max_[self.heading] += 1
                 self.heading += 1
@@ -64,7 +66,6 @@ class Spiral:
             self.last_cell = new_cell
 
         return new_value
-                
 
     def sum_surrounding(self, coord: tuple):
         total = 0
@@ -74,7 +75,7 @@ class Spiral:
                 if cell in self.cells:
                     total += self.cells[cell]
         return total
-            
+
 
 def test_p1_1():
     assert ms03_p1(1) == 0
@@ -93,7 +94,7 @@ def test_p1_4():
 
 
 def main():
-    print (ms03_p1(325489))
+    print(ms03_p1(325489))
 
     spiral = Spiral()
 
@@ -101,7 +102,8 @@ def main():
     while last_cell < 325489:
         last_cell = spiral.add_cell()
 
-    print(f"There are {len(spiral.cells)} entries, and the last one was {last_cell}")
+    print(
+        f"There are {len(spiral.cells)} entries, and the last one was {last_cell}")
 
 
 if __name__ == '__main__':

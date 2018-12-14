@@ -27,12 +27,14 @@ the only two numbers on the line that are evenly divisible.
 
 import itertools
 
+
 def test_ms02():
     assert ms02('ms02_test') == 18
 
+
 def test_ms02_part2():
     assert ms02_part2('ms02_p2_test') == 9
-    
+
 
 def ms02(filename):
     f = open(filename)
@@ -42,7 +44,7 @@ def ms02(filename):
         max_n = int(line[0])
         min_n = int(line[0])
         for i in line:
-            if int( i ) > max_n:
+            if int(i) > max_n:
                 max_n = int(i)
             if int(i) < min_n:
                 min_n = int(i)

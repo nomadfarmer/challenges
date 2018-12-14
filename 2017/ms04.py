@@ -7,6 +7,7 @@ Read a file and count the number of lines which have no duplicate words.
 """
 import itertools
 
+
 def count_valid_passphrases(filename):
     with open(filename) as f:
         passphrases = f.read().strip().splitlines()
@@ -44,5 +45,3 @@ def count_valid_passphrases_2(filename):
 
 assert count_valid_passphrases_2("ms04input_test2") == 3
 print(count_valid_passphrases_2("ms04input"))
-
-

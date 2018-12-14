@@ -38,7 +38,6 @@ def test_stream_score():
 def test_garbage_count():
 
 
-
 def process_stream(stream: str):
     groups = 0
     open_groups = 0
