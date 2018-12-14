@@ -6,6 +6,7 @@ https://adventofcode.com/2017/day/9
 """
 
 from tqdm import tqdm
+
 # import numpy as np
 # import re
 # import collections
@@ -34,12 +35,17 @@ def test_stream_score():
     assert process_stream("{{<a!>},{<a!>},{<a!>},{<ab>}}")[1] == 3
 
 
+def test_garbage_count():
+
+
+
 def process_stream(stream: str):
     groups = 0
     open_groups = 0
     score = 0
     escaped = False
     in_garbage = False
+    garbage_count = 0
     for c in tqdm(stream):
         if escaped:
             escaped = False
@@ -50,6 +56,8 @@ def process_stream(stream: str):
         elif in_garbage:
             if c == '>':
                 in_garbage = False
+            else:
+                garbage_count += 1
         elif c == '{':
             groups += 1
             open_groups += 1
@@ -57,9 +65,9 @@ def process_stream(stream: str):
         elif c == '}':
             open_groups -= 1
             if open_groups < 0:
-                raise ValueError('Invalid input: Closed more groups than opened')
-    print(groups)
-    return (groups, score)
+                raise ValueError('Invalid input: Too many "}"')
+    print(garbage_count)
+    return (groups, score, garbage_count)
 
 
 def main():
