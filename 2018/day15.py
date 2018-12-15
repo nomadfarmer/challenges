@@ -6,10 +6,6 @@ https://adventofcode.com/2018/day/15
 Roguelike!
 """
 
-# from tqdm import tqdm
-# import numpy as np
-# import re
-# import collections
 from termcolor import colored
 from copy import deepcopy
 import sys
@@ -24,27 +20,60 @@ class Unit():
     def move(self, enemies, obstacles):
         if locs(enemies) & adjacent(self.location):
             return  # Don't need to move, we can already attack
+        if not enemies:
+            print(f'{self.location}: Nothing to move on. {turn}')
+            total_hp = sum([x.hp for x in (elves | goblins)])
+            print('Turn', turn, 'total_hp:', total_hp,
+                  'product:', colored(turn * total_hp, 'red'))
+
+            return
+
         # targets variable name sucks. It winds up being a dict with the
         # first step of a potential path as the key and the number of
         # steps to attacking range as the value.
         targets = {}
+        # en_dist = {}
+
+        # Find the manhattan distance to each enemy. Only try to path to the closest 3.
+        # for e in enemies:
+        #     d = abs(self.location[0] - e.location[0]) \
+        #         + abs(self.location[1] - e.location[1])
+        #     en_dist[e] = d
+        # mean_dist = sorted(en_dist.values())[
+        #     2 if len(en_dist) > 2 else len(en_dist) - 1]
+        # for e in [x for x in en_dist.keys() if en_dist[x] <= mean_dist]:
         for e in enemies:
             for t in adjacent(e.location) - obstacles:
                 path = next_step_on_path(self.location, t, obstacles)
-                if path and path[0] not in targets \
-                   or targets[path[0]] > path[1]:
-                    targets[path[0]] = path[1]
+                if path:
+                    if path[0] not in targets or targets[path[0]] > path[1]:
+                        targets[path[0]] = path[1]
         if targets:
             shortest = min(targets.values())
             targets = [x for x in targets.keys() if targets[x] == shortest]
+            # old_location = self.location
             self.location = sorted(targets, key=reading_order)[0]
+            # print(f'{old_location}->{self.location}')
+        # else:
+        #     print(f'{self.location}: No path')
 
-    def attack(self, board, enemies):
-        pass
+    def attack(self, enemies):
+        e_hp = {}
+        ad = adjacent(self.location)
+        for e in enemies:
+            if e.location in ad:
+                e_hp[e] = e.hp
+        if e_hp:
+            min_hp = min(e_hp.values())
+            e_hp = [x for x in e_hp.keys() if e_hp[x] == min_hp]
+            victim = sorted(e_hp, key=reading_order)[0]
+            # print(f'{self.location} Attacking {victim.location}')
+            victim.rec_damage(self.power, enemies)
 
     def rec_damage(self, damage, friends):
         self.hp -= damage
-        if self.hp < 0:
+        # print(f'            {-damage} ({self.hp})')
+        if self.hp <= 0:
             friends.remove(self)
 
 
@@ -104,6 +133,18 @@ def reading_order(o):
     return (coord[1] * 10**4) + coord[0]
 
 
+def show_cave():
+    print_cave = deepcopy(cave)
+    for g in goblins:
+        print_cave[g.location[1]][g.location[0]] = colored('G', 'red')
+    for e in elves:
+        print_cave[e.location[1]][e.location[0]] = colored('E', 'blue')
+    for y in print_cave:
+        print(''.join(y))
+
+
+##### Main #####
+
 fn = sys.argv[1] if len(sys.argv) > 1 else "input/day15"
 with open(fn) as f:
     raw_data = f.read().splitlines()
@@ -130,19 +171,21 @@ for y in range(len(raw_data)):
         else:
             cave[y].append(raw_data[y][x])
 
-
-for i in range(5):
-    print_cave = deepcopy(cave)
-    for g in goblins:
-        print_cave[g.location[1]][g.location[0]] = colored('G', 'red')
-    for e in elves:
-        print_cave[e.location[1]][e.location[0]] = colored('E', 'blue')
-    for y in print_cave:
-        print(''.join(y))
-    print('Turn', i)
-    input()
+show_cave()
+turn = 0
+while elves and goblins:
     for u in sorted(elves | goblins, key=reading_order):
         if u in goblins:
             u.move(elves, locs(elves, goblins, walls))
-        else:
+            u.attack(elves)
+        elif u in elves:
             u.move(goblins, locs(elves, goblins, walls))
+            u.attack(goblins)
+    turn += 1
+    show_cave()
+    print('Turn', turn)
+    # for u in sorted(elves | goblins, key=reading_order):
+    #     print(
+    #         colored(f'{u.location}: {u.hp}',
+    #                 'red' if u in goblins else 'blue'))
+    # input()
