@@ -23,8 +23,8 @@ class Unit():
         if not enemies:
             print(f'{self.location}: Nothing to move on. {turn}')
             total_hp = sum([x.hp for x in (elves | goblins)])
-            print('Turn', turn, 'total_hp:', total_hp,
-                  'product:', colored(turn * total_hp, 'red'))
+            print('Turn', turn, 'total_hp:', total_hp, 'product:',
+                  colored(turn * total_hp, 'red'))
 
             return
 
@@ -32,17 +32,20 @@ class Unit():
         # first step of a potential path as the key and the number of
         # steps to attacking range as the value.
         targets = {}
-        # en_dist = {}
+        en_dist = {}
 
-        # Find the manhattan distance to each enemy. Only try to path to the closest 3.
-        # for e in enemies:
-        #     d = abs(self.location[0] - e.location[0]) \
-        #         + abs(self.location[1] - e.location[1])
-        #     en_dist[e] = d
-        # mean_dist = sorted(en_dist.values())[
-        #     2 if len(en_dist) > 2 else len(en_dist) - 1]
-        # for e in [x for x in en_dist.keys() if en_dist[x] <= mean_dist]:
+        # Find the manhattan distance to each enemy. Only try to path
+        # to the closest 25%ish of enemies.
         for e in enemies:
+            d = abs(self.location[0] - e.location[0]) \
+                + abs(self.location[1] - e.location[1])
+            en_dist[e] = d
+        # max_dist = sorted(en_dist.values())[
+        #   2 if len(en_dist) > 2 else len(en_dist) - 1]
+        dists = sorted(en_dist.values())
+        max_dist = dists[((len(dists) // 5) + 1) if len(dists) >= 5 else -1]
+        # for e in enemies:
+        for e in [x for x in en_dist.keys() if en_dist[x] <= max_dist]:
             for t in adjacent(e.location) - obstacles:
                 path = next_step_on_path(self.location, t, obstacles)
                 if path:
@@ -143,7 +146,7 @@ def show_cave():
         print(''.join(y))
 
 
-##### Main #####
+# #### Main #####
 
 fn = sys.argv[1] if len(sys.argv) > 1 else "input/day15"
 with open(fn) as f:
