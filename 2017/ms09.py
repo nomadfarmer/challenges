@@ -66,7 +66,6 @@ def process_stream(stream: str):
             open_groups -= 1
             if open_groups < 0:
                 raise ValueError('Invalid input: Too many "}"')
-    print(garbage_count)
     return (groups, score, garbage_count)
 
 
