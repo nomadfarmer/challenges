@@ -160,8 +160,8 @@ for i in range(0, 796):
 
 ambiguity = {}
 opcode_options = {}
-for i in range(16):
-    opcode_options[i] = set()
+# for i in range(16):
+#     opcode_options[i] = set()
 for pre, op, post in ops:
     matches = []
     for o in operations:
@@ -172,8 +172,12 @@ for pre, op, post in ops:
         matches.append(match)
     match_count = matches.count(True)
 
-    opcode_options[op[0]] |= set(
-        op_names[i] for i in range(len(op_names)) if matches[i])
+    valid_ops = set(op_names[i] for i in range(len(op_names)) if matches[i])
+    if op[0] in opcode_options:
+        opcode_options[op[0]] &= valid_ops
+    else:
+        opcode_options[op[0]] = valid_ops        
+        
     if match_count in ambiguity:
         ambiguity[match_count] += 1
     else:
@@ -196,9 +200,9 @@ for a in sorted(opcode_options.keys(), key=lambda x: len(opcode_options[x])):
     names = ', '.join([x for x in sorted(opcode_options[a])])
     if len(names) + 9 > columns:
         for i in range((len(names) + 9) // (columns - 8)):
-            nl = names.rfind(',', i * columns,  (i * columns) + columns - 8)
+            nl = names.rfind(',', i * columns, (i * columns) + columns - 8)
             names = names[:nl + 1] + '\n' + 8 * ' ' + names[nl + 1:]
-            
+
     print(f'{a:3}:{len(opcode_options[a]): 3} ({names}) ')
 print((int(columns) - 2) * '=' + '\n')
 
