@@ -7,13 +7,6 @@ https://adventofcode.com/2018/day/17
 
 import sys
 import re
-<<<<<<< HEAD
-=======
-# import collections
-
-# import numpy as np
-# from tqdm import tqdm
->>>>>>> a878e57e57d2fbc1450aff60e88c8a24aa0a1f7d
 from termcolor import colored
 
 
@@ -33,11 +26,6 @@ def flood(start, map_):
     else:
         # fill left and right
         s, nw, nf = settle((x, y), map_)
-<<<<<<< HEAD
-=======
-        # if s:
-        #     nf.add(start)
->>>>>>> a878e57e57d2fbc1450aff60e88c8a24aa0a1f7d
         return (nw + new_water, nf)
 
 
@@ -61,10 +49,6 @@ def settle(start, map_):
                 done[dire] = True
             elif map_[y + 1][this_x] == '|':
                 settled = False
-<<<<<<< HEAD
-=======
-                # Don't start new floods here, it should already be covered
->>>>>>> a878e57e57d2fbc1450aff60e88c8a24aa0a1f7d
                 done[dire] = True
             else:
                 if map_[y][this_x] in r'|~-':
@@ -75,12 +59,6 @@ def settle(start, map_):
         new_floods.add((x, y - 1))
     for c in layer:
         map_[c[1]][c[0]] = fill
-<<<<<<< HEAD
-
-=======
-    # if settled and
-    #    print( 'dc   ', dont_count,'\nl   ', layer, '\nl^dc', layer ^ dont_count)
->>>>>>> a878e57e57d2fbc1450aff60e88c8a24aa0a1f7d
     return (settled, len(layer ^ dont_count), new_floods)
 
 
@@ -139,7 +117,6 @@ map_ = [['.' for x in range(x_min, x_max + 1)] for y in range(0, y_max + 1)]
 for c in clay:
     map_[c[1]][c[0] - x_min] = '#'
 
-<<<<<<< HEAD
 water, falls = flood((500 - x_min, y_min), map_)
 while falls:
     new_falls = set()
@@ -162,35 +139,3 @@ for y in map_:  # range(y_min, y_max + 1):
     # input()
 print('All water:', water)
 print('Standing water:', standing_water)
-=======
-print_map(map_)
-
-water, falls = flood((500 - x_min, y_min), map_)
-while falls:
-    # print(falls)
-    new_falls = set()
-    for c in falls:
-        # print_map(map_)
-        # print(water, falls)
-        nw, nf = flood(c, map_)
-        water += nw
-        # input()
-        new_falls |= nf
-    falls = new_falls
-
-print_map(map_)
-print(water)
-water = 0
-for y in map_:  # range(y_min, y_max + 1):
-    # print(y)
-    water += y.count('-') + y.count('|') + y.count('~')
-    # print(water)
-    # input()
-print('All water:', water)
-
-water = 0
-for y in map_:  # range(y_min, y_max + 1):
-    water += y.count('~')
-
-print('Standing water:', water)
->>>>>>> a878e57e57d2fbc1450aff60e88c8a24aa0a1f7d
