@@ -7,10 +7,6 @@ https://adventofcode.com/2018/day/17
 
 import sys
 import re
-# import collections
-
-# import numpy as np
-# from tqdm import tqdm
 from termcolor import colored
 
 
@@ -122,33 +118,25 @@ map_ = [['.' for x in range(x_min, x_max + 1)] for y in range(0, y_max + 1)]
 for c in clay:
     map_[c[1]][c[0] - x_min] = '#'
 
-print_map(map_)
-
 water, falls = flood((500 - x_min, y_min), map_)
 while falls:
-    # print(falls)
     new_falls = set()
     for c in falls:
-        # print_map(map_)
-        # print(water, falls)
         nw, nf = flood(c, map_)
         water += nw
-        # input()
         new_falls |= nf
     falls = new_falls
 
-print_map(map_)
 print(water)
+
 water = 0
+standing_water = 0
 for y in map_:  # range(y_min, y_max + 1):
     # print(y)
-    water += y.count('-') + y.count('|') + y.count('~')
+    standing_water_here = y.count('~')
+    standing_water += standing_water_here
+    water += standing_water_here + y.count('-') + y.count('|')
     # print(water)
     # input()
 print('All water:', water)
-
-water = 0
-for y in map_:  # range(y_min, y_max + 1):
-    water += y.count('~')
-
-print('Standing water:', water)
+print('Standing water:', standing_water)
