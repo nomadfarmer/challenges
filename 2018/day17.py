@@ -11,8 +11,7 @@ from termcolor import colored
 
 
 def flood(start, map_):
-    # look down until we find water or clay
-    # print('Flood called with', start)
+    # look down until we find standing water, clay, or the bottom of the map.
     x = start[0]
     new_water = 0
     for y in range(start[1], len(map_)):
@@ -21,7 +20,7 @@ def flood(start, map_):
             new_water += 1
         if y == len(map_) - 1 or map_[y + 1][x] in '#~':
             break
-    if y == len(map_) - 1:  # and map_[y + 1][x] not in '#~':
+    if y == len(map_) - 1:
         return (new_water, set())
     else:
         # fill left and right
@@ -59,6 +58,7 @@ def settle(start, map_):
         new_floods.add((x, y - 1))
     for c in layer:
         map_[c[1]][c[0]] = fill
+
     return (settled, len(layer ^ dont_count), new_floods)
 
 
@@ -71,7 +71,7 @@ def print_map(map_):
             no_water_limit -= 1
             if no_water_limit <= 0:
                 break
-        line = line[-100:]
+        # line = line[-100:]
         line = line.replace('.', colored('.', 'white'))
         line = line.replace('~', colored('~', 'blue'))
         line = line.replace('|', colored('|', 'blue'))
@@ -126,6 +126,7 @@ while falls:
         new_falls |= nf
     falls = new_falls
 
+print_map(map_)
 print(water)
 
 water = 0
@@ -135,7 +136,6 @@ for y in map_:  # range(y_min, y_max + 1):
     standing_water_here = y.count('~')
     standing_water += standing_water_here
     water += standing_water_here + y.count('-') + y.count('|')
-    # print(water)
-    # input()
+
 print('All water:', water)
 print('Standing water:', standing_water)
