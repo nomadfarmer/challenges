@@ -5,14 +5,12 @@ https://adventofcode.com/2018/day/19
 
 """
 
-
 import sys
 # import re
 # import collections
 
 # import numpy as np
 # from tqdm import tqdm
-
 
 truth_table = {True: 1, False: 0}
 
@@ -141,57 +139,50 @@ op_names = [
 operations = [
     addr, addi, mulr, muli, banr, bani, borr, bori, setr, seti, gtir, gtri,
     gtrr, eqir, eqri, eqrr
-    ]
-
+]
 
 fn = sys.argv[1] if len(sys.argv) > 1 else "input/day19"
 with open(fn) as f:
     raw_lines = f.read().splitlines()
 
 ip_reg = int(raw_lines[0].split(' ')[1])
-print(ip_reg)
+print('IP: reg', ip_reg)
 
 instructions = []
 
 for i in range(1, len(raw_lines)):
     line = raw_lines[i].split(' ')
-    print(line)
     op = op_names.index(line[0])
     regs = tuple([int(line[x]) for x in range(1, 4)])
-    # print(f'op: {op} ({op_names[op]}), registers: {regs}')
-    instructions.append((op,) + regs)
+    instructions.append((op, ) + regs)
 
-# print(instructions)
-# exit()
-ip = 0
-# reg = [1, 0, 0, 0, 0, 0]
-"""
-[0, 34, 0, 0, 10550400, 10551296]
-[1, 7, 1, 10551296, 1, 10551296]
-[3, 7, 2, 5275648, 1, 10551296]
-[7, 7, 4, 2637824, 1, 10551296]
-[14, 7, 7, 1507328, 1, 10551296]
-[22, 7, 8, 1318912, 1, 10551296]
-[36, 7, 14, 753664, 1, 10551296]
-[52, 7, 16, 659456, 1, 10551296]
-[75, 7, 23, 458752, 1, 10551296]
-[103, 7, 28, 376832, 1, 10551296]
-[135, 7, 32, 329728, 1, 10551296]
-[181, 7, 46, 229376, 1, 10551296]
 
-"""
+def cpu(code, ip_reg, start_reg, time=0):
+    i = 0
+    reg = start_reg[:]
+    ip = 0
+    while reg[ip_reg] >= 0 and reg[ip_reg] < len(code) \
+          and (time == 0 or i <= time):
+        reg[ip_reg] = ip
+        op = instructions[ip]
+        reg = operations[op[0]](reg, op)
+        ip = reg[ip_reg]
+        ip += 1
+        i += 1
+    return reg
 
-reg = [0, 0, 0, 0, 0, 0]
+def sum_of_divisors(n):
+    s = 0
+    for i in range(1, int(n**.5) + 1):
+        if n % i == 0:
+            s += i + (n // i)
+    return s
 
-while ip in range(0, len(instructions)):
-    reg[ip_reg] = ip
-    op = instructions[ip]
-    new_reg = operations[op[0]](reg, op)
-    if new_reg[0] != reg[0]:
-        print(new_reg)
-    reg = new_reg
-    ip = reg[ip_reg]
-    ip += 1
-    # print(reg)
-print('Final registers:\n', reg)
-# print(f'After {i} operations, the registers are {reg}')
+
+n = max(cpu(instructions, ip_reg, [0, 0, 0, 0, 0, 0], 20))
+part1 = sum_of_divisors(n)
+n = max(cpu(instructions, ip_reg, [1, 0, 0, 0, 0, 0], 20))
+part2 = sum_of_divisors(n)
+
+print('Part 1:', part1)
+print('Part 2:', part2)

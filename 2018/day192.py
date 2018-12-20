@@ -42,7 +42,7 @@ actually trying to accomplish.
 a = 0
 e = 10551296
 # e = 896
-for b in range(1, e + 1):
+for b in range(1, int(e ** .5) + 1):
     if e % b == 0:
-        a += b
+        a += b + (e // b)
         print(a)
