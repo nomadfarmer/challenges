@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Advent of Code 2018 - Day  - 1
-https://adventofcode.com/2018/day/1
+Advent of Code 2018 - Day  - 2
+https://adventofcode.com/2018/day/2
 
 """
 
-import sys
+# import sys
 # import re
 # import collections
 
@@ -13,9 +13,10 @@ import sys
 # from tqdm import tqdm
 
 
-fn = sys.argv[1] if len(sys.argv) > 1 else "input/day1"
+# fn = sys.argv[1] if len(sys.argv) > 1 else "input/day2"
+fn = "input/day2"
 with open(fn) as f:
     raw_data = f.read().splitlines()
 
-for l in raw_lines:
+for l in raw_data:
     pass
