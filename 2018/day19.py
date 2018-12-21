@@ -6,11 +6,6 @@ https://adventofcode.com/2018/day/19
 """
 
 import sys
-# import re
-# import collections
-
-# import numpy as np
-# from tqdm import tqdm
 
 truth_table = {True: 1, False: 0}
 
