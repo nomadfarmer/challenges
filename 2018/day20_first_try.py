@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 """
-Advent of Code 2018 - Day  - 1
-https://adventofcode.com/2018/day/1
+Advent of Code 2018 - Day 20 - A Regular Map
+https://adventofcode.com/2018/day/20
 
-More roguelike
+Starting with a string that represents directions, calculate the shortest
+distance to the room which requires the most steps to get to.
+
+In this attempt, I did get code working that passes all the test cases
+and comes close to the right answer for part 1 (Although I didn't know it
+at the time). 
+
+See ./day20.py for my complete solution to day 20.
 """
 
 import sys
 from itertools import permutations
 import re
-
-# import collections
-
-# import numpy as np
-# from tqdm import tqdm
 
 
 class Path():
@@ -45,9 +47,6 @@ class Path():
                 elif paths[i] == '|' and forks == 1:
                     child_paths.append(paths[child_start:i])
                     child_start = i + 1
-            if forks != 0:
-                raise IndexError('Fork still open?')
-
             remainder = paths[i + 1:]
         print('=' * 10, paths, '=' * 10)
         print('My route:', self.route)
@@ -65,6 +64,7 @@ class Path():
         b) your shortest branch plus what comes after
         '''
         cancellations = [''.join(t) for t in permutations('NESW', 4)]
+        cancellations += ['EW', 'WE', 'NS', 'SN']
         cancellations = '(' + '|'.join(cancellations) + ')'
 
         shortest_branch = 0
@@ -80,8 +80,12 @@ class Path():
             after_length = self.after.shortest_most_doors()
 
         longest_after = max([longest_branch, shortest_branch + after_length])
-        own_length = len(re.sub(cancellations, '', self.route))
-        return own_length + longest_after
+        own_length = self.route
+        new_length = 0
+        while len(own_length) < new_length:
+            new_length = len(own_length)
+            own_length = re.sub(cancellations, '', own_length)
+        return len(own_length) + longest_after
 
     # def __repr__(self):
     #     lb = 0
