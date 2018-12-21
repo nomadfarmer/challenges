@@ -59,7 +59,7 @@ def part_b():
                     diff_loc = i
 
         if diff_loc >= 0:
-            print(pair[0][0:diff_loc] + pair[0][diff_loc+1:])
+            print(pair[0][0:diff_loc] + pair[0][diff_loc + 1:])
 
 
 if __name__ == "__main__":
