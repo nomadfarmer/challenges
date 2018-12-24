@@ -10,6 +10,7 @@ Backup copy of day15.py so I can safely copy code that changed back into this fi
 
 from termcolor import colored
 from copy import deepcopy
+from collections import deque
 import sys
 
 class Unit():
@@ -87,7 +88,7 @@ def next_step_on_path(start, dest, obs):
     """ start point (x, y) tuple
     destination: (x, y) tuple or set of (x, y) tuples
     obstacles: set of (x, y) tuples
-    returns (x, y) tuple of best first step (or start if no steps 
+    returns (x, y) tuple of best first step (or start if no steps
     are possible
     """
 
@@ -95,21 +96,19 @@ def next_step_on_path(start, dest, obs):
     path = {}
     for d in dest:
         path[d] = [0, {d}]
-    growing = True
+    frontier = deque(path.keys())
     # while start not in path.keys() and growing:
-    while growing:
-        path_keys = list(path.keys())[:]
-        for i in path_keys:
-            steps = path[i][0] + 1
-            for j in adjacent(i) - obs:
-                # print(path, j)
-                if j not in path or path[j][0] > steps:
-                    path[j] = [steps, path[i][1]]
-                elif path[j][0] == steps:
-                    path[j][1] = path[j][1] | path[i][1]
+    while frontier and start not in path:
+        i = frontier.popleft()
+        steps = path[i][0] + 1
+        for j in adjacent(i) - obs:
+            if j not in path or path[j][0] > steps:
+                path[j] = [steps, path[i][1]]
+                frontier.append(j)
+            elif path[j][0] == steps and path[j][1] not in path[j]:
+                path[j][1] = path[j][1] | path[i][1]
+                frontier.append(j)
 
-        if len(path) <= len(path_keys):
-            growing = False
     cands = {}  # Candidate steps
     for i in adjacent(start):
         if i in path:
