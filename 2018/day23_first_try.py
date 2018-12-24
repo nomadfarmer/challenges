@@ -1,7 +1,8 @@
 import re
 from operator import itemgetter
 import itertools
-from heapq import heappush, heappop
+
+# from tqdm import tqdm
 
 fn = "input/day23"
 
@@ -40,8 +41,8 @@ def intersects(cube, nano):
     return False
 
 
-def dist(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1]) + abs(a[2] - b[2])
+def dist(x, y):
+    return abs(x[0] - y[0]) + abs(x[1] - y[1]) + abs(x[2] - y[2])
 
 
 with open(fn) as f:
@@ -106,28 +107,50 @@ next_pow_2 = 1
 while next_pow_2 < largest_axis_length:
     next_pow_2 *= 2
 largest_axis_length = next_pow_2
+print('  >>> next power of 2:', largest_axis_length)
 
-boxes = []
-heappush(boxes, (0, largest_axis_length, 0, (tuple(mins))))
+granularity = 1
+best_boxes = {(tuple(mins), granularity, '')}
 
-while boxes:
-    ir, box_length, distance, (bx, by, bz) = heappop(boxes)
-    if box_length == 1:
-        print("Point:", (bx, by, bz))
-        print("In range:", -ir)
-        print("d from (0, 0, 0):", distance)
-        break
-    box_length //= 2
-    offsets = [0, box_length]
-    for sub_x, sub_y, sub_z in set(itertools.product(offsets, repeat=3)):
-        box = ((bx + sub_x, by + sub_y, bz + sub_z),
-               (bx + sub_x + box_length - 1, by + sub_y + box_length - 1,
-                bz + sub_z + box_length - 1))
-        in_range = 0
-        for n in nanos.items():
-            if intersects(box, n):
-                in_range += 1
-        distance = min((abs(box[0][0]), abs(box[1][0]))) + \
-            min((abs(box[0][1]), abs(box[1][1]))) + \
-            min((abs(box[0][2]), abs(box[1][2])))
-        heappush(boxes, (-in_range, box_length, distance, box[0]))
+done = False
+while not done:
+    boxes_to_check = tuple(best_boxes)
+    best_boxes = set()
+    most_nanos = 0
+    # print('new boxes:', boxes_to_check)
+
+    for ((bx, by, bz), bg, ir) in boxes_to_check:
+        granularity = bg * 2
+        box_length = largest_axis_length // granularity
+        print(box_length)
+        if box_length == 1:
+            done = True
+
+        cand_boxes = set()
+        # print('Checking', (bx, by, bz), 'with gran', granularity, 'ir', ir)
+        offsets = [0, box_length]
+        # print(box_length, offsets)
+        # print(list(itertools.product(offsets, repeat=3)))
+
+        for sub_x, sub_y, sub_z in set(itertools.product(offsets, repeat=3)):
+            # print(sub_x, sub_y, sub_z)
+            box = ((bx + sub_x, by + sub_y, bz + sub_z),
+                   (bx + sub_x + box_length - 1, by + sub_y + box_length - 1,
+                    bz + sub_z + box_length - 1))
+
+            in_range = 0
+            for n in nanos.items():
+                if intersects(box, n):
+                    in_range += 1
+            this_box = (box[0], granularity, in_range)
+            # print('   sub', this_box)
+            if in_range > most_nanos:
+                most_nanos = in_range
+                cand_boxes = {this_box}
+            elif in_range == most_nanos:
+                cand_boxes.add(this_box)
+        best_boxes |= cand_boxes
+    print(best_boxes)
+    best_boxes = [b for b in best_boxes if b[2] == most_nanos]
+    print(best_boxes)
+print(best_boxes)
