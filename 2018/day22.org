@@ -1,0 +1,56 @@
+0:00:02 Starting (03:41 AM)
+0:28:08 Thought I was done with part 2... got something wrong, let's see
+
+
+0:00:00 Part 2... (starting 11:54am) I think I have the full algorithm
+in mind this time. I'll use the same floodfill algorithm I've been
+using on other puzzles, but the index of our dict of previously viewed
+steps will be (x, y, tool). If we've gotten to a spot with the same
+tool before and it took fewer steps, we don't need to record it.
+
+I think that my day 15 algorithm tries stepping from every step we've
+ever taken before, and it could be faster if true. This time, I'll add
+a "frontier" dict of just the places where we're continuing to check.
+
+Tool will be an int 0-2. If we try to step into a new spot and tool ==
+terrain, then we'll need to add the 7 minutes to change tools and try
+*both* of the other tools.
+
+That is, if we are using tool 0 (nothing) and we try to step into a
+rocky terrain (terrain 0) we'll add two entries to frontier, one with
+tool 1 (torch), and one with tool 2. 
+
+If we try to step onto a terrain and we're using an allowed tool,
+don't bother changing. Just add `route_to[(x, y, tool)] = minutes`
+(unless we've already been here with the same tool and in less time.
+
+========
+
+0:28:47 I'm glad I reread the specs -- When we move into a new terrain
+and are forced to change tools, we actually are only allowed one
+choice: the tool which was valid in the square we're leaving and also
+in the square we're entering. That will actually make this much
+easier.
+
+
+========
+0:30:08 Pausing timer for a smoke break (even though all I've been
+doing is typing here, it's noisy and taken me much longer than it
+should :o)
+
+0:30:08 Back to work 
+
+1:09:48 Algorithm finished, but giving a slightly
+wrong answer. We're too short by 7m for the test data. 
+
+1:18:13 Smoke break (timer paused again)
+
+1:18:48 Rereading test path on specs to see if I missed something in
+the specs. If I don't spot anything there, I'll adjust things so I'm
+recording my whole path
+
+1:52:30 Got the star. Bugs I had near the end: I was starting with empty hands instead of the torch. 
+
+My algorithm can definitely be improved. At this point, I'm doing an
+exhaustive floodfill. I'll know the shortest time possible to every
+point on the map, which is overkill.
