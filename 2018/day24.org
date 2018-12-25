@@ -1,0 +1,45 @@
+[2018-12-24 Mon 22:05] Getting started in earnest.  I spent a few
+minutes last night skimming the specs and outlining the Group class,
+but spent my time helping a friend with day 23 and finding problems
+with my day 23 solution.
+
+Spent a few minutes considering one massive regex to get all info at
+once, but it's nontrivial and 3 regexes will be much more readable.
+
+Specs: We'll simulate a fight between an immune system and an
+infection Each side has several <groups>.  groups made of <units>,
+units in the same group have the same <hp>, <attack damage>, <attack
+type>, <initiative>, and possibly <weaknesses> and <immunities>
+
+From that we can calculate group <effective power>: 
+number of units * damage
+
+Turns in combat go in two phases... target selection and attack Targe
+selection phase: 
+  From highest to lowest effective power:
+    choose opponent to whom this group will do the most damage 
+    (accounting for immunity and weaknesses)
+    (can't choose an opponent that was already chosen)
+    Ties for most damage possible go to:
+        1. higher effective power
+        2. higher initiative.
+    No damage possible -> don't choose target
+attack phase:
+    highest to lowest initiative:
+    deal damage equal to effective power
+    can't damage groups immune to our attack
+    deal double damage to groups weak to our attack
+
+    defending groups only lose whole units.
+    E.G. 10 damage done to a group with 3 hp per unit, the 
+    defender loses 3 units, the extra hp is wasted.
+
+
+[2018-12-25 Tue 01:56]
+
+Back at it. I'm parsing input, I think (about to double check
+accuracy), but I took a detour because day 25 dropped and it looked
+like more fun.
+
+I can't finish day 25 part 2 until I have both stars for this day,
+though.
