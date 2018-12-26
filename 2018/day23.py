@@ -65,32 +65,6 @@ print('Nano count:', len(nanos))
 print('strongest nano:', strongest)
 print('Has', in_range, 'nanos in range')
 
-# verts = set()
-
-# for (x, y, z), r in nanos.items():
-#     # print(x, y, z, r)
-#     for new_x in [x - r, x + r]:
-#         verts.add((new_x, y, z))
-#     for new_y in [y - r, y + r]:
-#         verts.add((x, new_y, z))
-#     for new_z in [z - r, z + r]:
-#         verts.add((x, y, new_z))
-
-# best_vert = ((0, 0, 0), 0)
-# vert_scores = {}
-# for v in verts:
-#     in_range = 0
-#     for ncoords, nr in nanos.items():
-#         if dist(ncoords, v) <= nr:
-#             in_range += 1
-#     vert_scores[v] = in_range
-#     if in_range > best_vert[1]:
-#         best_vert = (v, in_range)
-#         print(best_vert)
-# # Best vert was
-# # ((40149144, 48814154, 44059110), 872)
-# # and submitting exactly that was too high
-
 mins = []
 maxes = []
 for d in range(3):
@@ -102,13 +76,12 @@ for d in range(3):
 
 largest_axis_length = max([abs(maxes[d] - mins[d]) for d in range(3)])
 print('Largest axis length:', largest_axis_length)
-next_pow_2 = 1
-while next_pow_2 < largest_axis_length:
-    next_pow_2 *= 2
-largest_axis_length = next_pow_2
+box_length = 1
+while box_length < largest_axis_length:
+    box_length *= 2
 
 boxes = []
-heappush(boxes, (0, largest_axis_length, 0, (tuple(mins))))
+heappush(boxes, (0, box_length, 0, (tuple(mins))))
 
 while boxes:
     ir, box_length, distance, (bx, by, bz) = heappop(boxes)
