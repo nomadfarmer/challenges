@@ -13,7 +13,7 @@ def part_a():
     requires = {}
     order = ''
 
-    for l in load_file("day07input_fisk"):
+    for l in load_file("input/day07_s"):
         m = re.search(r"(\b[A-Z]\b).*(\b[A-Z]\b)", l)
         g = m.groups()
         todo.add(g[0])

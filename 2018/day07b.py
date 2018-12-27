@@ -4,7 +4,7 @@ import re
 class Tasks:
     todo = set()
     started = set()
-#    done = set()
+    #    done = set()
     requires = {}
     base_time = 60
 
@@ -57,12 +57,12 @@ class Workers:
         self.working_on = ['' for i in range(worker_count)]
 
     def next_free_worker(self):
-        return min(busy_until)
+        return min(self.busy_until)
 
     def free_worker(self):
         try:
             self.busy_until.index(0)
-        except:
+        except ValueError:
             return False
 
         return True
@@ -87,7 +87,7 @@ class Workers:
 
 
 def main():
-    task_d = Tasks("day07input")
+    task_d = Tasks("input/day07_s")
     workers = Workers(5)
     time = 0
 
