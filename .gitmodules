@@ -1,0 +1,3 @@
+[submodule "hackerrank/euler"]
+	path = hackerrank/euler
+	url = https://github.com/nomadfarmer/hackerrrank-euler.git

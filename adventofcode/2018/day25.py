@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-"""
-Advent of Code 2018 - Day 25 - Four-Dimensional Adventure
-https://adventofcode.com/2018/day/25
-
-4d geometry!
-
-"""
-
 import sys
 
 fn = sys.argv[1] if len(sys.argv) > 1 else "input/day25"
@@ -40,7 +32,7 @@ class Universe:
             self.constellations.remove(c)
 
     def count_constellations(self):
-        return len([c for c in self.constellations if len(c.points) > 1])
+        return len(self.constellations)
 
 
 class Constellation:
@@ -69,4 +61,4 @@ class Point:
 
 universe = Universe(fn)
 print('Constellations: ', universe.count_constellations())
-print('Including singles:', len(universe.constellations))
+# print('Including singles:', len(universe.constellations))

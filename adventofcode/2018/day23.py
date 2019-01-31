@@ -3,7 +3,7 @@ from operator import itemgetter
 import itertools
 from heapq import heappush, heappop
 
-fn = "input/day23"
+fn = "input/day23_hard"
 
 
 def intersects(cube, nano):

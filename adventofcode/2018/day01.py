@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Advent of Code Day 01 part A:
 
 The input file consists of lines of numbers with a sign. Our job is to
@@ -9,7 +10,7 @@ Part B:
 
 def part_a():
     freq = 0
-    f = open("day01input")
+    f = open("input/day01")
     for line in f:
         freq += int(line)
 
@@ -21,7 +22,7 @@ def part_b():
     freq_history = {0}
 
     freq_changes = []
-    f = open("day01input-jackie")
+    f = open("input/day01")
     freq_changes = f.readlines()
     # freq_changes = [-6, +3, +8, +5, -6]
     # freq_changes = ['+1\n', '-2\n', '+3\n', '+1\n']
@@ -43,4 +44,5 @@ def part_b():
 
 
 if __name__ == "__main__":
+    part_a()
     part_b()

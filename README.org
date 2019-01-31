@@ -1,0 +1,11 @@
+* Coding Challenges
+
+A record of some of my solutions from coding challenges.
+
+Challenges come from a variety of sources, including:
+- Adventofcode.com
+- hackerrank.com (I look forward to working through the project Euler set there)
+- open.kattis.com
+- codewars.com
+- Miscellaneous puzzles from friends or elsewhere
+

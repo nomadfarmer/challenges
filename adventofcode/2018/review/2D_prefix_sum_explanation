@@ -1,0 +1,19 @@
+The name of the following datastructure would be something along the lines of "2D prefix sum". Prefix sums can be used for a variety of problems where you need to calculate the sum across a range of values. A brief introduction to one dimensional prefix sums can be viewed at the following wikipedia link: https://en.wikipedia.org/wiki/Prefix_sum
+
+So to calculate the sum of a subrectangle in a NxM grid of integers called MAT, you need to calculate a simple 2D prefix sum table (we'll call it A). What A gives when you ask for A[i][j], gives you the sum of the rectangle from (0,0) to (i,j). This can obviously be precomputed with some simple loops.
+
+# sums from left to right
+for i < N:
+    for j < M:
+        A[i][j] =  MAT[i][j] + A[i][j-1]
+
+# sums from top to bottom
+for i < N:
+    for j < M:
+        A[i][j] += A[i-1][j]
+
+Now we can compute a simple matrix sum starting from 0,0. However, the goal is to calculate a general sum from (i,j) to (k,l). To do this, it may take a bit of imagination, but look at the following formula:
+
+SUM(i,j,k,l) = A[k][l] - A[k][j-1] - A[i-1][l] + A[i-1][j-1]
+
+It might help to draw a picture to help visualize what's happening here, but the short explanation involves simple inclusion-exclusion. You include the large rectangle from (0,0) to (k,l), the exclude the two sides (0,0) to (k,j-1) and (0,0) to (i-1,l). Lastly, since you cut the small subrectangle at the top left too many times, you need to re-add it back (0,0) to (i-1,j-1).
