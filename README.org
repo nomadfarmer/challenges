@@ -9,3 +9,5 @@ Challenges come from a variety of sources, including:
 - codewars.com
 - Miscellaneous puzzles from friends or elsewhere
 
+* Update Summer 2023
+Am I back to coding for fun? Only time will tell.
