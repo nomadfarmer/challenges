@@ -1,0 +1,117 @@
+* XYZZY
+** Source
+https://open.kattis.com/problems/xyzzy
+** Problem
+ADVENT: /ad’vent/, n.
+
+    The prototypical computer adventure game, first designed by Will Crowther
+    on the PDP-10 in the mid-1970s as an attempt at computer-refereed fantasy
+    gaming, and expanded into a puzzle-oriented game by Don Woods at Stanford
+    in 1976. (Woods had been one of the authors of INTERCAL.) Now better known
+    as Adventure or Colossal Cave Adventure, but the TOPS-10 operating system
+    permitted only six-letter filenames in uppercase. See also vadding, Zork,
+    and Infocom.
+
+It has recently been discovered how to run open-source software on the Y-Crate
+gaming device. A number of enterprising designers have developed Advent-style
+games for deployment on the Y-Crate. Your job is to test a number of these
+designs to see which are winnable.
+
+Each game consists of a set of up to *100* rooms. One of the rooms is the
+start and one of the rooms is the finish. Each room has an energy value
+between and *-1000* and *+1000*. One-way doorways interconnect pairs of rooms.
+
+The player begins in the start room with *100* energy points. She may pass
+through any doorway that connects the room she is in to another room, thus
+entering the other room. The energy value of this room is added to the
+player’s energy. This process continues until she wins by entering the finish
+room or dies by running out of energy (or quits in frustration). During her
+adventure the player may enter the same room several times, receiving its
+energy each time.
+
+*** Input
+The input consists of several test cases (at most *50*). Each test case begins
+with *n*, the number of rooms. The rooms are numbered from *1* (the start
+room) to *n* (the finish room). Input for the *n* rooms follows. The input for
+each room consists of one or more lines containing:
+
+- the energy value for room *i*
+- the number of doorways leaving room *i*
+- a list of the rooms that are reachable by the doorways leaving room
+
+The start and finish rooms will always have energy level *0*. A line
+containing *-1* follows the last test case.  
+
+*** Output
+
+In one line for each case, output “winnable” if it is possible for the player
+to win, otherwise output “hopeless”.
+
+** Sample Input 1
+#+BEGIN_SRC
+5
+0 1 2
+-60 1 3
+-60 1 4
+20 1 5
+0 0
+5
+0 1 2
+20 1 3
+-60 1 4
+-60 1 5
+0 0
+5
+0 1 2
+21 1 3
+-60 1 4
+-60 1 5
+0 0
+5
+0 1 2
+20 2 1 3
+-60 1 4
+-60 1 5
+0 0
+-1
+#+END_SRC
+
+** Sample Output 1
+#+BEGIN_SRC
+hopeless
+hopeless
+winnable
+winnable
+#+END_SRC
+
+** Joby's Notes
+I'm so rusty on graph traversal. I don't remember the clever ways to do this,
+so here are my thoughts on a naive approach I'd take:
+1. Create an object or array/map structure where each room tracks the
+   following information:
+   - room id
+     - energy
+     - max energy we've had in this room before (starts at 0 or -1)
+     - exits (list of room ids)
+     - finish room -- if we ever get to this room it's winnable.
+2. Starting at room 1 with 100 energy, try stepping through each doorway.
+3. In the new room:
+   - if it's the finish room, print 'winnable' and move on to the next test case
+   - if our energy is > max_energy, set max_energy to current energy and step
+     through the doorways -- that is, loop back to 3.
+
+With this logic, we prune the loops where we've been in a room with more
+energy before. There is a possibility of an infinite loop when there is a net
+positive path back to the same room.
+
+This happens in the last set in the sample input: You can see that the path is
+1, 2, 1, 2, 3, 4, 5 -- you have to gain the +20 from room 2 twice). If we go
+depth first, my logic above would start with an infinite loop 1, 2, 1, 2, 1,
+...
+
+Possible answers:
+- Pick an arbitrary number to represent "or quits in frustration" in the
+  description above. e.g. "If we've been in this room 1000 times, give up on
+  this path
+- breadth first. Instead of actually stepping through each room immediately,
+  create an array of room/energy pairs to batch together.
